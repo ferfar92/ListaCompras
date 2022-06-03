@@ -2,6 +2,8 @@
 let contador =0; //Asignamos una variable para el contador de productos y total
 let costoTotal = 0; //Asignamos una variable para sumar el costo por la cantidad
 let totalEnProductos=0;
+//Arreglo global para almacenar la lista de compras
+let datos = [];
 
 let element = document.getElementById("totalPrecio"); //Obtenemos el ID del texto "Total precio"
 element.innerHTML = "Total de precio"; //Modificamos el texto
@@ -127,6 +129,16 @@ agregar.addEventListener("click", (event) =>
         total.innerHTML = `$ ${costoTotal.toFixed(2)}`;
         localStorage.setItem("precioTotal", costoTotal.toFixed(2)); //Guarda el total del costo
 
+        //JASON
+        //Definición de objeto     "Comillas ya que es una cadena"
+       let elemento = `{"id":${contador}, "nombre":"${txtNombre.value}", "cantidad":${txtNumber.value}, "precio":${precio}}`;
+        // string-number                    string-cadena                   string-number               string-cadena
+
+        datos.push(JSON.parse(elemento)); //parse: Convertimos la cadena elemento en un objeto
+        localStorage.setItem("elementosTabla", JSON.stringify(datos)); //Combierte el objeto en string para ponerlo en storage como cadena por elemento
+
+        console.log(datos);
+
         let tmp = `<tr>
             <th scope="row">${contador}</th>
             <td>${txtNombre.value}</td>
@@ -142,7 +154,6 @@ agregar.addEventListener("click", (event) =>
 );
 
 txtNombre.addEventListener("blur", (event)=>
-
 {
     event.target.value = event.target.value.trim();
 
@@ -150,7 +161,6 @@ txtNombre.addEventListener("blur", (event)=>
 );
 
 txtNumber.addEventListener("blur", (event)=>
-
 {
     event.target.value = event.target.value.trim();
 
@@ -177,5 +187,20 @@ window.addEventListener("load", function()
             this.document.getElementById("precioTotal");
             total.innerHTML = costoTotal
         };
+
+        if(this.localStorage.getItem("lementosTabla")!=null)
+        {
+            datos= JSON.parse(this.localStorage.getItem("elementosTabla"));
+            datos.forEach(element => 
+            {
+                cuerpoTabla[0].innerHTML += 
+                `<tr>
+                    <th scope="row">${element.id}</th>
+                    <td>${element.nombre}</td>
+                    <td>${element.cantidad}</td>
+                    <td>${element.precio}</td>
+                </tr>`;
+            });
+        }
     }
 );
