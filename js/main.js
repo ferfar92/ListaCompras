@@ -202,5 +202,10 @@ window.addEventListener("load", function()
                 </tr>`;
             });
         }
+
+        // for(let i=0; i < localStorage.length; i++) //Para conoer el nombre de la llave
+        // {
+        //     console.log(i + ": " + localStorage.key(i) + ": " + localStorage.getItem(localStorage.key(i)));
+        // };
     }
 );
